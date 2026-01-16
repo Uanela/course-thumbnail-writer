@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "dev": "deno run --watch --allow-write --allow-read --allow-run --allow-env src/main.ts "
+  },
+  "imports": {
+    "@std/assert": "jsr:@std/assert@1",
+    "ffmpeg": "npm:ffmpeg@^0.0.4"
+  }
+}

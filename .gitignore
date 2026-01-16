@@ -1,0 +1,7 @@
+shorts/
+.cache
+videos/
+.DS_Store
+node_modules/
+covers/
+images/
