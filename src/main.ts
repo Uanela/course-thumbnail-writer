@@ -3,25 +3,26 @@ import * as fs from "https://deno.land/std/fs/mod.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 
 const covers = [
-  { number: 22, title: "O QUE É BASE DE DADOS" },
-  { number: 23, title: " O QUE É SQL" },
-  { number: 24, title: " COMANDOS BÁSICOS EM SQL" },
-  { number: 25, title: " FAZENDO CRUD EM SQL" },
-  { number: 26, title: " O QUE SÃO RELAÇÕES EM SQL" },
-  { number: 27, title: " COMO USAR POSTGRESQL NO NODEJS" },
-  { number: 28, title: " COMO CRIAR TABELAS NO SQL" },
-  { number: 29, title: " OPERAÇÃO CREATE - CRUD" },
-  { number: 30, title: " OPERAÇÃO READ - CRUD" },
-  { number: 31, title: " OPERAÇÃO UPDATE - CRUD" },
-  { number: 32, title: " OPERAÇÃO DELETE - CRUD" },
-  { number: 33, title: " FAZENDO READ DE VALORES DE VÁRIAS TABELAS" },
-  { number: 34, title: " COMO EVITAR INJEÇÃO SQL" },
-  { number: 35, title: " O QUE É UMA ORM" },
-  { number: 36, title: " O QUE É UM FRAMEWORK BACKEND" },
-  { number: 37, title: " RESUMO MÓDULO 3" },
+  { number: 14, title: "INTRODUÇÃO AO PROJECTO REACT" },
+  { number: 15, title: "CRIANDO COMPONENTES DO PROJECTO" },
+  { number: 16, title: "ADICIONANDO O ITEM TODO" },
+  { number: 17, title: "ADICIONANDO LÓGICA DO APP" },
+  { number: 18, title: "REFACTORIZANDO O CÓDIGO" },
+  { number: 19, title: "AULA BÓNUS: ADICIONANDO BACKEND" },
 ];
 
-const imageFile = "cover-template.jpg";
+function escapeFFmpegText(text: string) {
+  return text
+    .replace(/\\/g, "\\\\")
+    .replace(/:/g, "\\:")
+    .replace(/'/g, "\\'")
+    .replace(/,/g, "\\,")
+    .replace(/\[/g, "\\[")
+    .replace(/\]/g, "\\]")
+    .replace(/%/g, "\\%");
+}
+
+const imageFile = "ts-course-cover.png";
 const imagePath = path.join(Deno.cwd(), "images", imageFile);
 const coversPath = path.join(Deno.cwd(), "covers");
 
@@ -45,7 +46,7 @@ async function generatecovers() {
 
       const outputPath = path.join(
         coverFolder,
-        `${cover.number}${kebabTitle}.jpeg`
+        `${cover.number}-${kebabTitle}.jpeg`
       );
 
       console.log(`Processing: ${cover.title}`);
@@ -80,7 +81,7 @@ async function generatecovers() {
 
       const lines = wrapText(cover.title);
       const fontSize = 64;
-      const lineHeight = fontSize + fontSize / 6;
+      const lineHeight = fontSize + fontSize / 7;
       const startY = Math.round(cropHeight * 0.75);
 
       function getBoxX(length: number) {
@@ -91,7 +92,7 @@ async function generatecovers() {
       const textFilters = lines
         .map(
           (line, index) =>
-            `drawtext=text='${line.replace(/'/g, "\\'")}':fontcolor=white:fontsize=${fontSize}:fontfile='/System/Library/Fonts/Supplemental/Tahoma Bold.ttf':x=${getBoxX(line.length)}:y=${startY + index * lineHeight + 8}`
+            `"drawtext=text='${escapeFFmpegText(line)}':fontcolor=white:fontsize=${fontSize}:fontfile='/System/Library/Fonts/Supplemental/Tahoma Bold.ttf':x=${getBoxX(line.length)}:y=${startY + index * lineHeight + 8}"`
         )
         .join(",");
       const numberText = `drawtext=text='${String(cover.number).length === 3 ? cover.number : `0${cover.number}`}':fontcolor=white:fontsize=113:fontfile='/System/Library/Fonts/Supplemental/Tahoma Bold.ttf':x=${cropWidth - 252}:y=${28}`;
